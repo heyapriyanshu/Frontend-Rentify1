@@ -1,0 +1,27 @@
+/* ---------- SIGN IN ---------- */
+.sign-in__wrapper {
+    display: flex;
+    background-color: aliceblue;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+  .sign-in__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(26, 24, 24, 0.3);
+  }
+  
+  .sign-in__wrapper form {
+    width: 24rem;
+    max-width: 100%;
+    z-index: 1;
+  }
+
+  
