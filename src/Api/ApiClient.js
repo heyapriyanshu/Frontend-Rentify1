@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const apiClient = axios.create(
     {
-        // baseURL: 'https://todolistbackend-production-d4f8.up.railway.app'
-        baseURL: 'http://localhost:8080'
+        baseURL: 'https://backend-rentify1-production.up.railway.app/'
+        // baseURL: 'http://localhost:8080'
     }
 );
