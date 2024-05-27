@@ -51,7 +51,7 @@ function Header() {
 							className="btn btn-outline-light me-2" > Login </button>}
 
           {!isAuthenticated && 	<button type="button" onClick={() => navigate("/register")}
-							className="btn btn-warning" > Sign-up </button> }
+							className="btn btn-warning" > Register </button> }
 
           {isAuthenticated && 	<button type="button" onClick={handleLogout}
 							className="btn btn-warning" > Logout </button> }
