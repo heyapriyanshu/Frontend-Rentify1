@@ -8,7 +8,7 @@ import CurrencyRupeeTwoToneIcon from "@mui/icons-material/CurrencyRupeeTwoTone";
 
 const IconRow = ({ location, bed, nearby, price }) => {
 	return (
-		<Grid className="text-muted card-body m-1 " container spacing={1} alignItems="baseline" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
+		<Grid className="text-muted card-body ms-1" container spacing={1} alignItems="baseline" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
 			 <Grid item xs={6}>
 				<LocationOnIcon color="secondary" />
                 <Typography variant="body1">{location}</Typography>

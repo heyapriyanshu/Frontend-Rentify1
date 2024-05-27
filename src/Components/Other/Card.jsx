@@ -21,16 +21,23 @@ const Card = ({
 	const [likeCount, setLikeCount] = useState(likes);
 	const [likeBtn, setLikeBtn] = useState(false);
 	const [interested, setInterested] = useState(false);
-	const [emailSent, setEmailSent] = useState(false);
+	const [statusMessage, setStatusMessage] = useState("");
 	const authContext = useAuth();
 	const navigate = useNavigate();
-	const [owner, setOwner] = useState({ firstName: "", lastName: "", email: "", phone: "" });
+	const [owner, setOwner] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		phone: "",
+	});
 
 	const fetchUserDetails = async () => {
 		if (!ownerId) return; // Exit early if ownerId is null
 
 		try {
-			const ownerDetails = await apiClient.get(`user/${ownerId}/getUserDetailsById`);
+			const ownerDetails = await apiClient.get(
+				`user/${ownerId}/getUserDetailsById`
+			);
 			setOwner(ownerDetails.data);
 		} catch (error) {
 			console.error("Error fetching owner details:", error);
@@ -67,29 +74,34 @@ const Card = ({
 	};
 
 	const handleSendDetails = () => {
-		apiClient.post('/send-email', null, {
-			params: {
-				userId: authContext.usersDetails.id,
-				ownerId: ownerId
-			}
-		})
+		setStatusMessage("Sending...");
+		apiClient
+			.post("/send-email", null, {
+				params: {
+					userId: authContext.usersDetails.id,
+					ownerId: ownerId,
+				},
+			})
 			.then((response) => {
-				console.log('Email sent successfully', response.data);
-				setEmailSent(true); // Set emailSent state to true on success
+				console.log("Email sent successfully", response.data);
+				setStatusMessage("Email sent successfully"); // Update statusMessage state on success
 			})
 			.catch((error) => {
-				console.error('There was an error while sending email!', error);
+				console.error("There was an error while sending email!", error);
+				setStatusMessage("Error sending email"); // Update statusMessage state on error
 			});
 	};
 
 	const handleClose = () => {
 		setInterested(false);
-		setEmailSent(false); // Reset emailSent state when closing the modal
+		setStatusMessage(""); // Reset statusMessage state when closing the modal
 	};
 
 	return (
 		<>
-			<div className={"card h-100 w-100 " + (interested ? "border-success" : "")}>
+			<div
+				className={"card h-100 w-100 " + (interested ? "border-success" : "")}
+			>
 				<img
 					className="card-img-top"
 					src={image}
@@ -120,26 +132,26 @@ const Card = ({
 					</button>
 				)}
 
-<div className="d-grid gap-2 m-2">
-    {authContext.usersDetails && ownerId === authContext.usersDetails.id ? (
-        <p className="text-primary text-center justify-content-center">
-            You're the owner.
-        </p>
-    ) : (
-        isAuthenticated && (
-            <button
-                type="button"
-                name="interested"
-                id="interested"
-                className="btn btn-outline-dark mt-3"
-                onClick={handleInterested}
-            >
-                I'm interested
-            </button>
-        )
-    )}
-</div>
-
+				<div className="d-grid gap-2 m-2">
+					{authContext.usersDetails &&
+					ownerId === authContext.usersDetails.id ? (
+						<p className="text-primary text-center justify-content-center">
+							You're the owner.
+						</p>
+					) : (
+						isAuthenticated && (
+							<button
+								type="button"
+								name="interested"
+								id="interested"
+								className="btn btn-outline-dark mt-3"
+								onClick={handleInterested}
+							>
+								I'm interested
+							</button>
+						)
+					)}
+				</div>
 			</div>
 
 			<Modal show={interested} onHide={handleClose}>
@@ -150,15 +162,15 @@ const Card = ({
 					<p>Name: {owner.firstName + " " + owner.lastName}</p>
 					<p>Email: {owner.email}</p>
 					<p>Phone: {owner.phone}</p>
-					{emailSent && <p className="text-success">Email sent successfully</p>}
+					<p className="text-success">{statusMessage}</p>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
+					<button className='btn btn-outline-dark' onClick={handleClose}>
 						Close
-					</Button>
-					<Button variant="primary" onClick={handleSendDetails}>
+					</button>
+					<button className='btn btn-warning' onClick={handleSendDetails}>
 						Send Me Details
-					</Button>
+					</button>
 				</Modal.Footer>
 			</Modal>
 		</>

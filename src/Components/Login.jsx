@@ -3,11 +3,14 @@ import Header from "./Other/Header";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./security/AuthContext";
+import { CircularProgress } from '@mui/material';
+
 const Login = () => {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+	const [loading, setLoading] = useState(false);
 
 	const authContext = useAuth();
 	const navigate = useNavigate();
@@ -36,9 +39,11 @@ const Login = () => {
 		const validationErrors = validate();
 
 		if (Object.keys(validationErrors).length === 0) {
+			setLoading(true);
 			authContext
 				.login(formData.email, formData.password)
 				.then((isAuthenticated) => {
+					setLoading(false);
 					if (isAuthenticated) {
 						navigate("/");
 						setPassNotMatch(false);
@@ -49,6 +54,7 @@ const Login = () => {
 					}
 				})
 				.catch((error) => {
+					setLoading(false);
 					setUserExist(false);
 					console.log("Network error ", error);
 				});
@@ -62,9 +68,7 @@ const Login = () => {
 	return (
 		<div>
 			<Header />
-			{/* <div className="container d-flex justify-content-center align-items-center min-vh-100 " > */}
 			<div className="sign-in__wrapper">
-				{/* Overlay */}
 				<div className="sign-in__backdrop"></div>
 				<form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
 					<div className="text-center">
@@ -97,8 +101,8 @@ const Login = () => {
 						)}
 					</div>
 					<div className="d-grid">
-						<button type="submit" className="btn btn-warning">
-							Submit
+						<button type="submit" className="btn btn-warning" disabled={loading}>
+							{loading ? <CircularProgress size={20} color="primary" /> : 'Submit'}
 						</button>
 					</div>
 					<p className="d-flex justify-content-end text-muted mt-3">

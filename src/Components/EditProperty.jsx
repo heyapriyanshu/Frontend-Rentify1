@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { apiClient } from '../Api/ApiClient';
 
-const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
+const EditProperty = ({  initialDetails, onClose, onUpdate }) => {
   const [updatedDetails, setUpdatedDetails] = useState(initialDetails);
 
   const handleChange = (e) => {
@@ -23,10 +23,11 @@ const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
   return (
     <Dialog open onClose={onClose}>
       <DialogTitle>Edit Property</DialogTitle>
-      <DialogContent>
+      <DialogContent className='p-2'>
         <TextField
           name="bhk"
           label="BHK"
+          className='p-2'
           value={updatedDetails.bhk}
           onChange={handleChange}
           fullWidth
@@ -34,6 +35,7 @@ const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
         <TextField
           name="title"
           label="Title"
+          className='p-2'
           value={updatedDetails.title}
           onChange={handleChange}
           fullWidth
@@ -41,6 +43,7 @@ const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
         <TextField
           name="location"
           label="Location"
+          className='p-2'
           value={updatedDetails.location}
           onChange={handleChange}
           fullWidth
@@ -48,12 +51,14 @@ const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
         <TextField
           name="price"
           label="Price"
+          className='p-2'
           value={updatedDetails.price}
           onChange={handleChange}
           fullWidth
         />
         <TextField
           name="nearby"
+          className='p-2'
           label="Nearby Amenities"
           value={updatedDetails.nearby}
           onChange={handleChange}
@@ -61,8 +66,8 @@ const EditProperty = ({ propertyId, initialDetails, onClose, onUpdate }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit} color="primary">Save Changes</Button>
+        <button onClick={onClose} className='btn btn-outline-dark'>Cancel</button>
+        <button onClick={handleSubmit} className='btn btn-warning'>Save Changes</button>
       </DialogActions>
     </Dialog>
   );

@@ -3,6 +3,7 @@ import Header from "./Other/Header";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./security/AuthContext";
+import { CircularProgress } from '@mui/material';
 
 const Register = () => {
 	const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const Register = () => {
 	const [errors, setErrors] = useState({});
 	const [userExist, setUserExist] = useState(false);
 	const authContext = useAuth();
+	const [loading, setLoading] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target; //name : firstName, email etc and value its input value
@@ -41,6 +43,7 @@ const Register = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setLoading(true);
 		const validationErrors = validate();
 		if (Object.keys(validationErrors).length === 0) {
 			authContext
@@ -154,8 +157,8 @@ const Register = () => {
 						</select>
 					</div>
 					<div className="d-grid">
-						<button type="submit" className="btn btn-warning">
-							Submit
+					<button type="submit" className="btn btn-warning" disabled={loading}>
+							{loading ? <CircularProgress size={20} color="primary" /> : 'Submit'}
 						</button>
 					</div>
 					<p className="d-flex justify-content-end text-muted mt-3">
